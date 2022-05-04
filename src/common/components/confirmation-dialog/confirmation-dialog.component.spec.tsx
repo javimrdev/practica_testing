@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ConfirmationDialogComponent } from './confirmation-dialog.component';
 
@@ -87,12 +87,18 @@ describe('ConfirmationDialogComponent tests', () => {
       <ConfirmationDialogComponent {...props} />
     );
 
+    
     const button = screen.getByRole('button', {
       name: props.labels.closeButton
     });
-    userEvent.click(button);
-    screen.debug();
-    //assert
+    fireEvent(button, 
+      new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+      }),)
+
+      //assert
     expect(props.onClose).toHaveBeenCalled();
   });
 });
+
